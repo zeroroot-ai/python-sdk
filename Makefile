@@ -1,4 +1,4 @@
-.PHONY: proto test lint fmt install clean
+.PHONY: proto build test lint fmt check install clean
 
 SDK_PROTO := ../sdk/api/proto
 BUF_VALIDATE := $(HOME)/.cache/buf/v3/modules/b5/buf.build/bufbuild/protovalidate/50325440f8f24053b047484a6bf60b76/files
@@ -11,6 +11,11 @@ proto:
 		--grpc_python_out=src \
 		--pyi_out=src \
 		$(shell find $(SDK_PROTO) -name "*.proto" | grep -v "google/protobuf" | grep -v "options.proto" | grep -v "test/v1")
+
+build:
+	uv build
+
+check: lint test
 
 install:
 	uv sync
